@@ -28,20 +28,54 @@ module datamemory #(
       .Wr(Wr)
   );
 
+    assign offset = a[1:0];
+
   always_ff @(*) begin
-    raddress = {{22{1'b0}}, a};
+    raddress = {{22{1'b0}}, {a[8:2], {2{1'b0}}}};
     waddress = {{22{1'b0}}, {a[8:2], {2{1'b0}}}};
     Datain = wd;
     Wr = 4'b0000;
 
     if (MemRead) begin
       case (Funct3)
-        3'b010:  //LW
-        rd <= Dataout;
+        3'b000: begin //LB
+            case(offset)
+                2'b00: rd <= {{24{Dataout[7]}}, Dataout[7:0]};
+                2'b01: rd <= {{24{Dataout[15]}}, Dataout[15:8]};
+                2'b10: rd <= {{24{Dataout[23]}}, Dataout[23:16]};
+                2'b11: rd <= {{24{Dataout[31]}}, Dataout[31:24]};
+            endcase
+        end
+
+        3'b001: begin //LH
+            case(offset[1])
+                1'b0: rd <= {{16{Dataout[15]}}, Dataout[15:0]};
+                1'b1: rd <= {{16{Dataout[31]}}, Dataout[31:16]};
+            endcase
+        end
+
+        3'b010: begin //LW
+            rd <= Dataout;
+        end
+        3'b100: begin //LBU
+            case(offset)
+                2'b00: rd <= {{24'b0}, Dataout[7:0]};
+                2'b01: rd <= {{24'b0}, Dataout[15:8]};
+                2'b10: rd <= {{24'b0}, Dataout[23:16]};
+                2'b11: rd <= {{24'b0}, Dataout[31:24]};
+            endcase
+        end
+
         default: rd <= Dataout;
       endcase
     end else if (MemWrite) begin
       case (Funct3)
+        3'b000: begin //SB
+        end
+
+        3'b001: begin //SH
+        end
+
         3'b010: begin  //SW
           Wr <= 4'b1111;
           Datain <= wd;
