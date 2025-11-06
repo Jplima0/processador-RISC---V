@@ -71,9 +71,40 @@ module datamemory #(
     end else if (MemWrite) begin
       case (Funct3)
         3'b000: begin //SB
+          case(offset)
+                2'b00: begin 
+                  Wr <= 4'b0001;
+                  rd <= {{24{Datain[7]}}, Datain[7:0]};
+                end
+                2'b01: begin
+                  Wr <= 4'b0010;
+                  rd <= {{24{Datain[15]}}, Datain[15:8]};
+                end
+                2'b10: begin 
+                  Wr <= 4'b0100;
+                  rd <= {{24{Datain[23]}}, Datain[23:16]};
+                end 
+                2'b11: begin
+                  Wr <= 4'b1000;
+                  rd <= {{24{Datain[31]}}, Datain[31:24]};
+                end
+          endcase
+
         end
 
         3'b001: begin //SH
+          
+           case(offset[1])
+              1'b0: begin
+                Wr <= 4'b0011;
+                wd <= {{16{Datain[15]}}, Datain[15:0]} ;
+              end
+              1'b1: begin
+                Wr <= 4'b1100;
+                wd <= {{16{Datain[31]}}, Datain[31:16]};
+              end 
+
+          endcase
         end
 
         3'b010: begin  //SW
