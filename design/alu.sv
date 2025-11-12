@@ -25,10 +25,17 @@ module alu#(
                         ALUResult = SrcA - SrcB;
                 4'b0011:        //XOR
                         ALUResult = SrcA ^ SrcB;
+                4'b0101:        // SRL/SLRI
+                        ALUResult = SrcA >> SrcB;
+                4'b0101:        // SLL/SLLI
+                        ALUResult = SrcA << SrcB;
+                4'b0111:        //SRAI
+                        ALUResult = SrcA << SrcB;
                 4'b1000:        // Equal
                         ALUResult = (SrcA == SrcB) ? 1 : 0;
                 4'b1100:        // Less
                         ALUResult = (SrcA < SrcB) ? 1 : 0;
+                
         
                 default: 
                         ALUResult = 0;
