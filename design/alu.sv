@@ -27,10 +27,10 @@ module alu#(
                         ALUResult = SrcA ^ SrcB;
                 4'b0101:        // SRL/SLRI
                         ALUResult = SrcA >> SrcB;
-                4'b0101:        // SLL/SLLI
+                4'b0100:        // SLL/SLLI
                         ALUResult = SrcA << SrcB;
                 4'b0111:        //SRAI
-                        ALUResult = SrcA << SrcB;
+                        ALUResult = $signed(SrcA) >>> SrcB;
                 4'b1000:        // Equal
                         ALUResult = (SrcA == SrcB) ? 1 : 0;
                 4'b1100:        // Less
