@@ -24,6 +24,10 @@ module imm_Gen (
         1'b0
       };
 
+      7'b0010011:
+      /*I-type immediate arithmetic*/
+      Imm_out = {inst_code[31] ? 20'hFFFFF : 20'b0, inst_code[31:20]};
+
       default: Imm_out = {32'b0};
 
     endcase
