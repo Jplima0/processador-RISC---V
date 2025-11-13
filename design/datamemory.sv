@@ -48,7 +48,7 @@ module datamemory #(
         end
 
         3'b001: begin //LH
-            case(offset[1])
+            case(offset)
                 1'b0: rd <= {{16{Dataout[15]}}, Dataout[15:0]};
                 1'b1: rd <= {{16{Dataout[31]}}, Dataout[31:16]};
             endcase
@@ -94,14 +94,14 @@ module datamemory #(
 
         3'b001: begin //SH
           
-           case(offset[1])
+           case(offset)
               1'b0: begin
                 Wr <= 4'b0011;
-                wd <= {{16{Datain[15]}}, Datain[15:0]} ;
+                rd <= {{16{Datain[15]}}, Datain[15:0]} ;
               end
               1'b1: begin
                 Wr <= 4'b1100;
-                wd <= {{16{Datain[31]}}, Datain[31:16]};
+                rd <= {{16{Datain[31]}}, Datain[31:16]};
               end 
 
           endcase
