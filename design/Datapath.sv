@@ -18,6 +18,7 @@ module Datapath #(
     MemWrite,  // Register file or Immediate MUX // Memroy Writing Enable
     MemRead,  // Memroy Reading Enable
     Branch,  // Branch Enable
+    jmp_sel
     input  logic [          1:0] ALUOp,
     input  logic [ALU_CC_W -1:0] ALU_CC,         // ALU Control Code ( input of the ALU )
     output logic [          6:0] opcode,
@@ -134,6 +135,7 @@ module Datapath #(
   always @(posedge clk) begin
     if ((reset) || (Reg_Stall) || (PcSel))   // initialization or flush or generate a NOP if hazard
         begin
+      B.jmp_sel <=0;
       B.ALUSrc <= 0;
       B.MemtoReg <= 0;
       B.RegWrite <= 0;
@@ -153,6 +155,7 @@ module Datapath #(
       B.Curr_Instr <= A.Curr_Instr;  //debug tmp
     end else begin
       B.ALUSrc <= ALUsrc;
+      B.jmp_sel <=0;
       B.MemtoReg <= MemtoReg;
       B.RegWrite <= RegWrite;
       B.MemRead <= MemRead;
@@ -221,6 +224,8 @@ module Datapath #(
       B.Curr_Pc,
       B.ImmG,
       B.Branch,
+      B.ALUOp,
+      B.jmp_sel
       ALUResult,
       BrImm,
       Old_PC_Four,
@@ -233,6 +238,7 @@ module Datapath #(
     if (reset)   // initialization
         begin
       C.RegWrite <= 0;
+      C.jmp_sel <=0;
       C.MemtoReg <= 0;
       C.MemRead <= 0;
       C.MemWrite <= 0;
@@ -246,6 +252,7 @@ module Datapath #(
       C.func7 <= 0;
     end else begin
       C.RegWrite <= B.RegWrite;
+      C.jmp_sel <= B.jmp_sel;
       C.MemtoReg <= B.MemtoReg;
       C.MemRead <= B.MemRead;
       C.MemWrite <= B.MemWrite;
@@ -283,6 +290,7 @@ module Datapath #(
     if (reset)   // initialization
         begin
       D.RegWrite <= 0;
+      D.jmp_sel <= 0;
       D.MemtoReg <= 0;
       D.Pc_Imm <= 0;
       D.Pc_Four <= 0;
@@ -292,6 +300,7 @@ module Datapath #(
       D.rd <= 0;
     end else begin
       D.RegWrite <= C.RegWrite;
+      D.jmp_sel <= C.jmp_sel
       D.MemtoReg <= C.MemtoReg;
       D.Pc_Imm <= C.Pc_Imm;
       D.Pc_Four <= C.Pc_Four;
@@ -311,6 +320,5 @@ module Datapath #(
       WrmuxSrc
   );
 
-  assign WB_Data = WrmuxSrc;
-
+  assign WB_Data = = (D.JalrSel == 1) ? D.Pc_Four : WrmuxSrc;
 endmodule
