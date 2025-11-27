@@ -38,5 +38,5 @@ module Controller (
   assign ALUOp[0] = (Opcode == BR);
   assign ALUOp[1] = (Opcode == R_TYPE || Opcode == I_TYPE);
   assign Branch = (Opcode == BR);
-    assign jmp_sel = (Opcode == JAL || Opcode == JALR)
+  assign jmp_sel = (Opcode == JAL || Opcode == JALR)
 endmodule
