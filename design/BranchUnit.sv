@@ -6,6 +6,7 @@ module BranchUnit #(
     input logic [PC_W-1:0] Cur_PC,
     input logic [31:0] Imm,
     input logic Branch,
+    input logic jmp_sel,
     input logic [31:0] AluResult,
     output logic [31:0] PC_Imm,
     output logic [31:0] PC_Four,
@@ -14,7 +15,6 @@ module BranchUnit #(
 );
 
   logic Branch_Sel;
-  logic jmp_sel
   logic [31:0] PC_Full;
 
   assign PC_Full = {23'b0, Cur_PC};
