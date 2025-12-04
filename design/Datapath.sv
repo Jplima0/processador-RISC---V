@@ -18,7 +18,7 @@ module Datapath #(
     MemWrite,  // Register file or Immediate MUX // Memroy Writing Enable
     MemRead,  // Memroy Reading Enable
     Branch,  // Branch Enable
-    jmp_sel
+    jmp_sel,
     input  logic [          1:0] ALUOp,
     input  logic [ALU_CC_W -1:0] ALU_CC,         // ALU Control Code ( input of the ALU )
     output logic [          6:0] opcode,
@@ -155,7 +155,7 @@ module Datapath #(
       B.Curr_Instr <= A.Curr_Instr;  //debug tmp
     end else begin
       B.ALUSrc <= ALUsrc;
-      B.jmp_sel <=0;
+      B.jmp_sel <=jmp_sel;
       B.MemtoReg <= MemtoReg;
       B.RegWrite <= RegWrite;
       B.MemRead <= MemRead;
@@ -225,7 +225,7 @@ module Datapath #(
       B.ImmG,
       B.Branch,
       B.ALUOp,
-      B.jmp_sel
+      B.jmp_sel,
       ALUResult,
       BrImm,
       Old_PC_Four,
@@ -300,7 +300,7 @@ module Datapath #(
       D.rd <= 0;
     end else begin
       D.RegWrite <= C.RegWrite;
-      D.jmp_sel <= C.jmp_sel
+      D.jmp_sel <= C.jmp_sel;
       D.MemtoReg <= C.MemtoReg;
       D.Pc_Imm <= C.Pc_Imm;
       D.Pc_Four <= C.Pc_Four;
@@ -320,5 +320,5 @@ module Datapath #(
       WrmuxSrc
   );
 
-  assign WB_Data = = (D.JalrSel == 1) ? D.Pc_Four : WrmuxSrc;
+  assign WB_Data = (D.jmp_sel == 1) ? D.Pc_Four : WrmuxSrc;
 endmodule
