@@ -20,7 +20,7 @@ module Controller (
     output logic jmp_sel
 );
 
-  logic [6:0] R_TYPE, I_TYPE, LW, SW, BR;
+    logic [6:0] R_TYPE, I_TYPE, LW, SW, BR, JAL, JALR;
 
   assign R_TYPE = 7'b0110011;  //add,and
   assign LW = 7'b0000011;  //lw
