@@ -41,7 +41,7 @@ module imm_Gen (
 
       7'b1100111: //JALR
       Imm_out = {
-        inst_code[31] ? 20'h7FFFF : 20'b0,
+        inst_code[31] ? 20'hFFFFF : 20'b0,
         inst_code[31:20]
       };
 

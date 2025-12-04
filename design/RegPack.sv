@@ -15,6 +15,8 @@ package Pipe_Buf_Reg_PKG;
     logic [1:0]  ALUOp;
     logic        Branch;
     logic        jmp_sel;
+    logic        jmp;
+    logic        jmpr;
     logic [8:0]  Curr_Pc;
     logic [31:0] RD_One;
     logic [31:0] RD_Two;
