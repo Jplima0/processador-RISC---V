@@ -33,10 +33,9 @@ module riscv #(
       RegWrite,
       MemRead,
       MemWrite,
-      jmp_sel,
-      halt,
       ALUop,
-      Branch
+      Branch,
+      jmp_sel
   );
 
   ALUController ac (
@@ -54,15 +53,14 @@ module riscv #(
       ALUSrc,
       MemWrite,
       MemRead,
-      jmp_sel,
       Branch,
+      jmp_sel,
       ALUop,
       Operation,
       opcode,
       Funct7,
       Funct3,
       ALUop_Reg,
-      halt,
       WB_Data,
       reg_num,
       reg_data,
