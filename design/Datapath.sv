@@ -29,8 +29,8 @@ module Datapath #(
     output logic [          1:0] ALUOp_Current,
     output logic [   DATA_W-1:0] WB_Data,        //Result After the last MUX
 
-    // Para depuraÃ§Ã£o no tesbench:
-    output logic [4:0] reg_num,  //nÃºmero do registrador que foi escrito
+    // Para depuraÃÂ§ÃÂ£o no tesbench:
+    output logic [4:0] reg_num,  //nÃÂºmero do registrador que foi escrito
     output logic [DATA_W-1:0] reg_data,  //valor que foi escrito no registrador
     output logic reg_write_sig,  //sinal de escrita no registrador
 
