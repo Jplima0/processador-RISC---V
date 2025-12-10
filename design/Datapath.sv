@@ -21,6 +21,7 @@ module Datapath #(
     jmp_sel,
     jmp,
     jmpr,
+    halt_coman,
     input  logic [          1:0] ALUOp,
     input  logic [ALU_CC_W -1:0] ALU_CC,         // ALU Control Code ( input of the ALU )
     output logic [          6:0] opcode,
@@ -29,8 +30,8 @@ module Datapath #(
     output logic [          1:0] ALUOp_Current,
     output logic [   DATA_W-1:0] WB_Data,        //Result After the last MUX
 
-    // Para depuraÃÂ§ÃÂ£o no tesbench:
-    output logic [4:0] reg_num,  //nÃÂºmero do registrador que foi escrito
+    
+    output logic [4:0] reg_num,  //nÃÂÃÂºmero do registrador que foi escrito
     output logic [DATA_W-1:0] reg_data,  //valor que foi escrito no registrador
     output logic reg_write_sig,  //sinal de escrita no registrador
 
@@ -77,7 +78,7 @@ module Datapath #(
       clk,
       reset,
       Next_PC,
-      Reg_Stall,
+     (Reg_Stall | halt_coman),
       PC
   );
   instructionmemory instr_mem (
@@ -93,7 +94,7 @@ module Datapath #(
       A.Curr_Pc <= 0;
       A.Curr_Instr <= 0;
     end
-        else if (!Reg_Stall)    // stall
+        else if (!Reg_Stall && !halt_coman)    // stall
         begin
       A.Curr_Pc <= PC;
       A.Curr_Instr <= Instr;
