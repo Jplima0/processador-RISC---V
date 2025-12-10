@@ -19,10 +19,11 @@ module Controller (
     output logic Branch,  //0: branch is not taken; 1: branch is taken
     output logic jmp_sel,
     output logic jmp,
-    output logic jmpr
+    output logic jmpr,
+    output logic halt_coman
 );
 
-  logic [6:0] R_TYPE, I_TYPE, LW, SW, BR, JAL, JALR;
+  logic [6:0] R_TYPE, I_TYPE, LW, SW, BR, JAL, JALR, HALT;
 
   assign R_TYPE = 7'b0110011;  //add,and
   assign I_TYPE = 7'b0010011; //addi,andi
@@ -31,6 +32,7 @@ module Controller (
   assign BR = 7'b1100011;  //beq, bge, blt, bne
   assign JAL = 7'b1101111; //jal
   assign JALR = 7'b1100111;//jalr
+  assign HALT = 7'b1111111; // HALT
   
 
   assign ALUSrc = (Opcode == LW || Opcode == SW || Opcode == I_TYPE || Opcode == JAL || Opcode == JALR);
@@ -44,4 +46,5 @@ module Controller (
   assign jmp_sel = (Opcode == JAL || Opcode == JALR);
   assign jmp = (Opcode == JAL);
   assign jmpr = (Opcode == JALR);
+  assign halt_coman = (Opcode == HALT);
 endmodule
