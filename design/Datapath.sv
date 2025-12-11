@@ -78,7 +78,7 @@ module Datapath #(
       clk,
       reset,
       Next_PC,
-     (Reg_Stall | halt_coman),
+      (Reg_Stall | halt_coman), //trava o codigo se houver um hazard ou receber um opcode de halt
       PC
   );
   instructionmemory instr_mem (
