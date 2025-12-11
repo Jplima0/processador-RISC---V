@@ -37,7 +37,7 @@ module alu#(
                 4'b1010:       // BNE
                         ALUResult = (SrcA == SrcB) ? 0 : 1;
                 4'b1100:        // Less
-                        ALUResult = (SrcA < SrcB) ? 1 : 0;
+                        ALUResult = ($signed(SrcA) < $signed(SrcB)) ? 1 : 0;
                 
         
                 default: 
